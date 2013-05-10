@@ -2,10 +2,9 @@ require 'nokogiri'
 
 module XLIFFer
   class XLIFFFile
-    attr_accessor :sources, :targets
+    attr_reader :version
     def initialize(xliff = nil)
-      @sources = []
-      @targets = []
+      @files = []
       text = case xliff
              when IO then xliff.read
              when String then xliff
@@ -25,6 +24,13 @@ module XLIFFer
 
       root = xml.xpath('/xliff')
       raise FormatError, "Not a XLIFF file" unless root.any?
+
+      @version = get_version(xml)
+    end
+
+    def get_version(xml)
+      version_attr = xml.xpath('/xliff/@version').first
+      version_attr ? version_attr.value : nil
     end
   end
 end

@@ -21,6 +21,15 @@ describe XLIFFer::XLIFFFile do
     it "don't accepts a random file" do
       expect{XLIFFer::XLIFFFile.new("file.foobar")}.to raise_error XLIFFer::FormatError
     end
-  end
 
+    context "parsing attributes" do
+      it "get the xliff version" do
+         XLIFFer::XLIFFFile.new('<xliff version="9.8"></xliff>').version.should eql("9.8")
+      end
+
+      it "let the version blank when it is not present" do
+         XLIFFer::XLIFFFile.new('<xliff></xliff>').version.should be_nil
+      end
+    end
+  end
 end
