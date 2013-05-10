@@ -15,11 +15,11 @@ describe XLIFFer::XLIFFFile do
     end
 
     it "don't accepts a random string" do
-      #expect{XLIFFer::XLIFFFile.new("foobar")}.to raise_error XLIFFer::FormatError
+      expect{XLIFFer::XLIFFFile.new("foobar")}.to raise_error XLIFFer::FormatError
     end
 
     it "don't accepts a random file" do
-      #expect{XLIFFer::XLIFFFile.new("file.foobar")}.to raise_error XLIFFer::FormatError
+      expect{XLIFFer::XLIFFFile.new("file.foobar")}.to raise_error XLIFFer::FormatError
     end
   end
 
