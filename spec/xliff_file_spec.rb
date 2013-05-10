@@ -1,34 +1,58 @@
 require 'spec_helper'
 
-describe XLIFFer::XLIFFFile do
-  context "#new" do
-    it "accepts a xliff file" do
-      XLIFFer::XLIFFFile.new(File.open("spec/files/empty.xliff")).should be
-    end
-
-    it "accepts a xliff string" do
-      XLIFFer::XLIFFFile.new(File.open("spec/files/empty.xliff").read).should be
-    end
-
-    it "doesn't accept a number" do
-      expect{XLIFFer::XLIFFFile.new(123)}.to raise_error ArgumentError
-    end
-
-    it "doesn't accept a random string" do
-      expect{XLIFFer::XLIFFFile.new("foobar")}.to raise_error XLIFFer::FormatError
-    end
-
-    it "doesn't accept a random file" do
-      expect{XLIFFer::XLIFFFile.new("file.foobar")}.to raise_error XLIFFer::FormatError
-    end
-
-    context "parsing version" do
-      it "get the xliff version" do
-         XLIFFer::XLIFFFile.new('<xliff version="9.8"></xliff>').version.should eql("9.8")
+module XLIFFer
+  describe XLIFFFile do
+    context "#new" do
+      it "accepts a xliff file" do
+        XLIFFFile.new(File.open("spec/files/empty.xliff")).should be
       end
 
-      it "let the version blank when it is not present" do
-         XLIFFer::XLIFFFile.new('<xliff></xliff>').version.should be_nil
+      it "accepts a xliff string" do
+        XLIFFFile.new(File.open("spec/files/empty.xliff").read).should be
+      end
+
+      it "doesn't accept a number" do
+        expect{XLIFFFile.new(123)}.to raise_error ArgumentError
+      end
+
+      it "doesn't accept a random string" do
+        expect{XLIFFFile.new("foobar")}.to raise_error FormatError
+      end
+
+      it "doesn't accept a random file" do
+        expect{XLIFFFile.new("file.foobar")}.to raise_error FormatError
+      end
+    end
+
+    context "#version" do
+      it "is the xliff version" do
+        XLIFFFile.new('<xliff version="9.8"></xliff>').version.should eql("9.8")
+      end
+
+      it "is nil when it is not present" do
+        XLIFFFile.new('<xliff></xliff>').version.should be_nil
+      end
+
+      it "is a string when there is a xliff version" do
+        XLIFFFile.new('<xliff version="9.8"></xliff>').version.should be_kind_of(String)
+      end
+    end
+
+    context "#files" do
+      it "is an array " do
+        XLIFFFile.new('<xliff></xliff>').files.should be_kind_of(Array)
+      end
+
+      it "can be empty" do
+        XLIFFFile.new('<xliff></xliff>').files.should be_empty
+      end
+
+      it "should have a file" do
+        XLIFFFile.new('<xliff><file></file></xliff>').files.first.should be_kind_of(XLIFFFile::File)
+      end
+
+      it "should have multiple files" do
+        XLIFFFile.new('<xliff><file></file><file></file></xliff>').files.size.should eql(2)
       end
     end
   end
