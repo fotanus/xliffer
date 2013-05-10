@@ -1,8 +1,8 @@
 require 'nokogiri'
-require 'xliffer/xliff_file'
+require 'xliffer/xliff'
 
 module XLIFFer
-  class XLIFFFile
+  class XLIFF
     class File
       def initialize(xml)
       end

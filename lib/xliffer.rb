@@ -1,3 +1,3 @@
 require 'xliffer/exceptions'
-require 'xliffer/xliff_file'
-require 'xliffer/xliff_file/file'
+require 'xliffer/xliff'
+require 'xliffer/xliff/file'

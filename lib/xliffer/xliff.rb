@@ -1,8 +1,8 @@
 require 'nokogiri'
-require 'xliffer/xliff_file/file'
+require 'xliffer/xliff/file'
 
 module XLIFFer
-  class XLIFFFile
+  class XLIFF
     attr_reader :version, :files
     def initialize(xliff = nil)
       text = case xliff
