@@ -6,8 +6,8 @@ module XLIFFer
     attr_reader :version, :files
     def initialize(xliff = nil)
       text = case xliff
-             when IO then xliff.read
-             when String then xliff
+             when ::IO then xliff.read
+             when ::String then xliff
              else fail ArgumentError, "Expects an IO or String"
              end
 

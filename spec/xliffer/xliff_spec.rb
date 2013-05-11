@@ -4,11 +4,11 @@ module XLIFFer
   describe XLIFF do
     context "#new" do
       it "accepts a xliff file" do
-        XLIFF.new(File.open("spec/files/empty.xliff")).should be
+        XLIFF.new(::File.open("spec/files/empty.xliff")).should be
       end
 
       it "accepts a xliff string" do
-        XLIFF.new(File.open("spec/files/empty.xliff").read).should be
+        XLIFF.new(::File.open("spec/files/empty.xliff").read).should be
       end
 
       it "doesn't accept a number" do
@@ -20,7 +20,7 @@ module XLIFFer
       end
 
       it "doesn't accept a random file" do
-        expect{XLIFF.new("file.foobar")}.to raise_error FormatError
+        expect{XLIFF.new(::File.new("spec/files/file.foobar"))}.to raise_error FormatError
       end
     end
 
