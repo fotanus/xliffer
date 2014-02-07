@@ -22,6 +22,7 @@ module XLIFFer
         fail FormatError, "Not a XML file"
       end
 
+      xml.remove_namespaces!
       root = xml.xpath('/xliff')
       raise FormatError, "Not a XLIFF file" unless root.any?
 
