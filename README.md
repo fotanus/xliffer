@@ -26,7 +26,7 @@ puts file.target_language
 
 # Prints all string and the translations on this file.
 file.strings.each do |string| 
-  puts  "#{x.original} => #{x.target}"
+  puts  "#{string.source} => #{string.target}"
 end
 ```
 
