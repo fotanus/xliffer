@@ -1,12 +1,11 @@
-require 'xliffer'
-
 unless RUBY_VERSION.match(/\A1\.8/)
   require "codeclimate-test-reporter"
+  require 'simplecov'
   CodeClimate::TestReporter.start
+  SimpleCov.start
 end
 
-require 'simplecov'
-SimpleCov.start
+require 'xliffer'
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
