@@ -13,7 +13,11 @@ Gem::Specification.new do |s|
   s.email       = 'fotanus@gmail.com'
   s.homepage    = 'http://github.com/fotanus/xliff'
 
+  s.add_dependency "nokogiri", "~> 1.5"
+
   s.add_development_dependency "rspec", "~> 2"
+  s.add_development_dependency "simplecov", "~> 0.10"
+
   s.rubyforge_project = "xliffer"
 
   s.files         = `git ls-files`.split("\n")

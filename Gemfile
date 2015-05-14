@@ -4,4 +4,5 @@ gem 'nokogiri'
 
 group :development do
   gem 'rspec', '~> 2'
+  gem 'simplecov'
 end
