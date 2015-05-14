@@ -14,7 +14,7 @@ module XLIFFer
         @original = xml.attr("original")
         @source_language = xml.attr("source-language")
         @target_language = xml.attr("target-language")
-        @strings = xml.xpath('//trans-unit').map{|tu| String.new(tu)}
+        @strings = xml.xpath('body/trans-unit').map{|tu| String.new(tu)}
       end
 
 
