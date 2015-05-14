@@ -10,5 +10,5 @@ end
 
 group :development do
   gem 'rspec', '~> 2'
-  gem 'simplecov'
+  gem 'simplecov', '>= 0.9.0'
 end
