@@ -1,3 +1,8 @@
+[![Build Status](https://travis-ci.org/fotanus/xliffer.svg?branch=master)](https://travis-ci.org/fotanus/xliffer)
+[![Test Coverage](https://codeclimate.com/github/fotanus/xliffer/badges/coverage.svg)](https://codeclimate.com/github/fotanus/xliffer/coverage)
+[![Code Climate](https://codeclimate.com/github/fotanus/xliffer/badges/gpa.svg)](https://codeclimate.com/github/fotanus/xliffer)
+
+
 xliffer
 =======
 
