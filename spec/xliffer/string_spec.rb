@@ -32,12 +32,6 @@ module XLIFFer
         expect{XLIFF::String.new(trans_unit_node)}.to raise_error NoElement
       end
 
-      it "have one target" do
-        xml = "<trans-unit><source></source></trans-unit>"
-        trans_unit_node = Nokogiri::XML.parse(xml).xpath("//trans-unit").first
-        expect{XLIFF::String.new(trans_unit_node)}.to raise_error NoElement
-      end
-
       it "don't have multiple sources tag" do
         xml = "<trans-unit>#{"<source></source>"*2}<target></target></trans-unit>"
         trans_unit_node = Nokogiri::XML.parse(xml).xpath("//trans-unit").first

@@ -18,7 +18,7 @@ module XLIFFer
     def parse(text)
       begin
         xml = Nokogiri::XML(text)
-      rescue => e
+      rescue
         fail FormatError, "Not a XML file"
       end
 
