@@ -1,3 +1,10 @@
+unless RUBY_VERSION.match(/\A1\.8/)
+  require "codeclimate-test-reporter"
+  require 'simplecov'
+  CodeClimate::TestReporter.start
+  SimpleCov.start
+end
+
 require 'xliffer'
 
 RSpec.configure do |config|
