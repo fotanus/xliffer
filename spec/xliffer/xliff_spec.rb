@@ -55,5 +55,17 @@ module XLIFFer
         XLIFF.new('<xliff><file></file><file></file></xliff>').files.size.should eql(2)
       end
     end
+
+    context "#regenate" do
+      it 'should output an xml' do
+        xml = ::File.open("spec/files/empty.xliff").read
+        xliff = XLIFF.new(xml)
+        xliff.to_xliff.should eq(xml)
+      end
+
+      it 'should contain modifications' do
+
+      end
+    end
   end
 end
