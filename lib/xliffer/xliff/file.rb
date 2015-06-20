@@ -7,7 +7,7 @@ module XLIFFer
       attr_reader :source_language, :target_language, :original, :strings
       alias_method :file_name, :original
       def initialize(xml)
-        unless xml_element?(xml) and file?(xml)
+        unless XLIFF::xml_element?(xml) and file?(xml)
           raise ArgumentError, "can't create a File without a file subtree"
         end
 
@@ -19,10 +19,6 @@ module XLIFFer
 
 
       private
-      # TODO: move to public method on XLIFF
-      def xml_element?(xml)
-        xml.kind_of? Nokogiri::XML::Element
-      end
 
       def file?(xml)
         xml.name.downcase == "file"

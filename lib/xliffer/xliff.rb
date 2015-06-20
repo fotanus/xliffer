@@ -43,5 +43,9 @@ module XLIFFer
       root.xpath('//file').map{|f| File.new(f)}
     end
 
+    def self.xml_element?(xml)
+      xml.kind_of? Nokogiri::XML::Element
+    end
+
   end
 end

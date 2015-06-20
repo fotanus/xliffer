@@ -3,7 +3,7 @@ module XLIFFer
     class String
       attr_reader :id, :source, :target, :note
       def initialize(trans_unit_xml)
-        unless xml_element?(trans_unit_xml) and trans_unit?(trans_unit_xml)
+        unless XLIFF::xml_element?(trans_unit_xml) and trans_unit?(trans_unit_xml)
           raise ArgumentError, "can't create a String without a trans-unit subtree"
         end
 
@@ -21,10 +21,6 @@ module XLIFFer
       end
 
       private
-      # TODO: move to public method on XLIFF
-      def xml_element?(xml)
-        xml.kind_of? Nokogiri::XML::Element
-      end
 
       def trans_unit?(xml)
         xml.name.downcase == "trans-unit"
