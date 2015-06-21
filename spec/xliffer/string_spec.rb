@@ -59,16 +59,30 @@ module XLIFFer
       end
     end
 
+    context "#strings" do
+      before(:all) do
+        @trans_unit = <<-EOF
+        <trans-unit id="my id">
+          <source>Hello World</source>
+          <target>Bonjour le monde</target>
+        </trans-unit>
+        EOF
+      end
 
-    #context "#strings" do
-    #  before(:all) do
-    #    @trans_unit = <<-EOF
-    #    <trans-unit id="my id">
-    #      <source>Hello World</source>
-    #      <target>Bonjour le monde</target>
-    #    </trans-unit>
-    #    EOF
-    #  end
+      it 'Modify target' do
+        trans_unit_node = Nokogiri::XML.parse(@trans_unit).xpath("//trans-unit").first
+        string = XLIFF::String.new(trans_unit_node)
+        string.target = 'Hola Mundo'
+        string.target.should eq 'Hola Mundo'
+      end
+
+      it 'Modify target if xml doensnt contain target initially' do
+        xml = "<trans-unit id='my id'><source>Value</source></trans-unit>"
+        trans_unit_node = Nokogiri::XML.parse(xml).xpath("//trans-unit").first
+        string = XLIFF::String.new(trans_unit_node)
+        string.target = 'Hola Mundo'
+        string.target.should eq 'Hola Mundo'
+      end
     #  it "is an array " do
     #    trans_unit_node = Nokogiri::XML.parse("<xliff><file></file></xliff>").xpath("//file").first
     #    XLIFF::File.new(trans_unit_node).strings.should be_kind_of(Array)
@@ -88,6 +102,6 @@ module XLIFFer
     #    trans_unit_node = Nokogiri::XML.parse("<xliff><file>#{@trans_unit * 10}</file></xliff>").xpath("//file").first
     #    XLIFF::File.new(trans_unit_node).strings.size.should eql(10)
     #  end
-    #end
+    end
   end
 end
