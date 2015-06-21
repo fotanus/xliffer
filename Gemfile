@@ -10,6 +10,6 @@ group :test do
 end
 
 group :development do
-  gem 'rspec', '~> 2'
+  gem 'rspec', '~> 3'
   gem 'simplecov', '>= 0.9.0'
 end

@@ -14,7 +14,7 @@ module XLIFFer
       end
       it "is created with a nokogiri trans-unit node" do
         trans_unit_node = Nokogiri::XML.parse(@minimal_trans_unit).xpath("//trans-unit").first
-        XLIFF::String.new(trans_unit_node).should be
+        expect(XLIFF::String.new(trans_unit_node)).to be
       end
 
       it "can't be created with a string" do
@@ -49,13 +49,13 @@ module XLIFFer
       it "is nil if not defined" do
         xml = "<trans-unit><source></source><target></target></trans-unit>"
         trans_unit_node = Nokogiri::XML.parse(xml).xpath("//trans-unit").first
-        XLIFF::String.new(trans_unit_node).id.should be nil
+        expect(XLIFF::String.new(trans_unit_node).id).to be nil
       end
 
       it "is the id attribute on trans-unit tag" do
         xml = "<trans-unit id='my id'><source></source><target></target></trans-unit>"
         trans_unit_node = Nokogiri::XML.parse(xml).xpath("//trans-unit").first
-        XLIFF::String.new(trans_unit_node).id.should eql("my id")
+        expect(XLIFF::String.new(trans_unit_node).id).to eql("my id")
       end
     end
 
@@ -73,7 +73,7 @@ module XLIFFer
         trans_unit_node = Nokogiri::XML.parse(@trans_unit).xpath("//trans-unit").first
         string = XLIFF::String.new(trans_unit_node)
         string.target = 'Hola Mundo'
-        string.target.should eq 'Hola Mundo'
+        expect(string.target).to eq 'Hola Mundo'
       end
 
       it 'Modify target if xml doensnt contain target initially' do
@@ -81,7 +81,7 @@ module XLIFFer
         trans_unit_node = Nokogiri::XML.parse(xml).xpath("//trans-unit").first
         string = XLIFF::String.new(trans_unit_node)
         string.target = 'Hola Mundo'
-        string.target.should eq 'Hola Mundo'
+        expect(string.target).to eq 'Hola Mundo'
       end
     #  it "is an array " do
     #    trans_unit_node = Nokogiri::XML.parse("<xliff><file></file></xliff>").xpath("//file").first

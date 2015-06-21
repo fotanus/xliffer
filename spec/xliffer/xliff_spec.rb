@@ -4,11 +4,11 @@ module XLIFFer
   describe XLIFF do
     context "#new" do
       it "accepts a xliff file" do
-        XLIFF.new(::File.open("spec/files/empty.xliff")).should be
+        expect(XLIFF.new(::File.open("spec/files/empty.xliff"))).to be
       end
 
       it "accepts a xliff string" do
-        XLIFF.new(::File.open("spec/files/empty.xliff").read).should be
+        expect(XLIFF.new(::File.open("spec/files/empty.xliff").read)).to be
       end
 
       it "doesn't accept a number" do
@@ -26,33 +26,33 @@ module XLIFFer
 
     context "#version" do
       it "is the xliff version" do
-        XLIFF.new('<xliff version="9.8"></xliff>').version.should eql("9.8")
+        expect(XLIFF.new('<xliff version="9.8"></xliff>').version).to eql("9.8")
       end
 
       it "is nil when it is not present" do
-        XLIFF.new('<xliff></xliff>').version.should be_nil
+        expect(XLIFF.new('<xliff></xliff>').version).to be_nil
       end
 
       it "is a string when there is a xliff version" do
-        XLIFF.new('<xliff version="9.8"></xliff>').version.should be_kind_of(String)
+        expect(XLIFF.new('<xliff version="9.8"></xliff>').version).to be_kind_of(String)
       end
     end
 
     context "#files" do
       it "is an array " do
-        XLIFF.new('<xliff></xliff>').files.should be_kind_of(Array)
+        expect(XLIFF.new('<xliff></xliff>').files).to be_kind_of(Array)
       end
 
       it "can be empty" do
-        XLIFF.new('<xliff></xliff>').files.should be_empty
+        expect(XLIFF.new('<xliff></xliff>').files).to be_empty
       end
 
       it "should have a file" do
-        XLIFF.new('<xliff><file></file></xliff>').files.first.should be_kind_of(XLIFF::File)
+        expect(XLIFF.new('<xliff><file></file></xliff>').files.first).to be_kind_of(XLIFF::File)
       end
 
       it "should have multiple files" do
-        XLIFF.new('<xliff><file></file><file></file></xliff>').files.size.should eql(2)
+        expect(XLIFF.new('<xliff><file></file><file></file></xliff>').files.size).to eql(2)
       end
     end
 
