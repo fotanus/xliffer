@@ -14,17 +14,13 @@ module XLIFFer
       parse(text)
     end
 
-    def to_xliff
-      @xml.to_html
+    def to_s
+      @xml.to_xml
     end
 
     private
     def parse(text)
-      begin
-        @xml = Nokogiri::XML(text)
-      rescue
-        fail FormatError, "Not a XML file"
-      end
+      @xml = Nokogiri::XML(text)
 
       @xml.remove_namespaces!
       root = @xml.xpath('/xliff')

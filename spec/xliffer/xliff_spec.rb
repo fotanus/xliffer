@@ -2,13 +2,13 @@ require 'spec_helper'
 
 module XLIFFer
   describe XLIFF do
-    context "#new" do
+    describe "#new" do
       it "accepts a xliff file" do
-        XLIFF.new(::File.open("spec/files/empty.xliff")).should be
+        expect(XLIFF.new(::File.open("spec/files/empty.xliff"))).to be
       end
 
       it "accepts a xliff string" do
-        XLIFF.new(::File.open("spec/files/empty.xliff").read).should be
+        expect(XLIFF.new(::File.open("spec/files/empty.xliff").read)).to be
       end
 
       it "doesn't accept a number" do
@@ -24,47 +24,60 @@ module XLIFFer
       end
     end
 
-    context "#version" do
+    describe "#version" do
       it "is the xliff version" do
-        XLIFF.new('<xliff version="9.8"></xliff>').version.should eql("9.8")
+        expect(XLIFF.new('<xliff version="9.8"></xliff>').version).to eql("9.8")
       end
 
       it "is nil when it is not present" do
-        XLIFF.new('<xliff></xliff>').version.should be_nil
+        expect(XLIFF.new('<xliff></xliff>').version).to be_nil
       end
 
       it "is a string when there is a xliff version" do
-        XLIFF.new('<xliff version="9.8"></xliff>').version.should be_kind_of(String)
+        expect(XLIFF.new('<xliff version="9.8"></xliff>').version).to be_kind_of(String)
       end
     end
 
-    context "#files" do
+    describe "#files" do
       it "is an array " do
-        XLIFF.new('<xliff></xliff>').files.should be_kind_of(Array)
+        expect(XLIFF.new('<xliff></xliff>').files).to be_kind_of(Array)
       end
 
       it "can be empty" do
-        XLIFF.new('<xliff></xliff>').files.should be_empty
+        expect(XLIFF.new('<xliff></xliff>').files).to be_empty
       end
 
       it "should have a file" do
-        XLIFF.new('<xliff><file></file></xliff>').files.first.should be_kind_of(XLIFF::File)
+        expect(XLIFF.new('<xliff><file></file></xliff>').files.first).to be_kind_of(XLIFF::File)
       end
 
       it "should have multiple files" do
-        XLIFF.new('<xliff><file></file><file></file></xliff>').files.size.should eql(2)
+        expect(XLIFF.new('<xliff><file></file><file></file></xliff>').files.size).to eql(2)
       end
     end
 
-    context "#regenate" do
-      it 'should output an xml' do
-        xml = ::File.open("spec/files/empty.xliff").read
+    describe "#to_s" do
+      it 'outputs a xml' do
+        xml = ::File.open("spec/files/simple.xliff").read
         xliff = XLIFF.new(xml)
-        xliff.to_xliff.should eq(xml)
+        expect(Nokogiri::XML(xliff.to_s)).to be
       end
 
-      it 'should contain modifications' do
+      context 'when xml is not changed' do
+        it 'outputs the same xml' do
+          xml = ::File.open("spec/files/simple.xliff").read
+          xliff = XLIFF.new(xml)
+          expect(xliff.to_s).to be_equivalent_to(xml)
+        end
+      end
 
+      context 'when xml is changed' do
+        it 'outputs a different xml' do
+          xml = ::File.open("spec/files/simple.xliff").read
+          xliff = XLIFF.new(xml)
+          xliff.files.first.strings.first.target = "My brand new target"
+          expect(xliff.to_s).not_to be_equivalent_to(xml)
+        end
       end
     end
   end

@@ -20,6 +20,12 @@ module XLIFFer
         @target = val
       end
 
+      def source=(val)
+        source = @xml.xpath('./source')
+        source.first.content = val
+        @source = val
+      end
+
       private
 
       def trans_unit?(xml)

@@ -6,9 +6,7 @@
 xliffer
 =======
 
-A XLIFF parser gem.
-
-Currently implementing the [version 1.2](http://docs.oasis-open.org/xliff/xliff-core/xliff-core.html) from xliff. It is on a very alpha phase.
+XLIFFer helps you to parse xliff files and get their content. You can read and modify your xliff files with it.
 
 Usage
 -----
@@ -30,9 +28,21 @@ puts file.source_language
 puts file.target_language
 
 # Prints all string and the translations on this file.
-file.strings.each do |string| 
+file.strings.each do |string|
   puts  "#{string.source} => #{string.target}"
 end
+
+# Changes the translation of texts "hi" to "oi"
+file.strings.find_all { |s| s.source = "hi" }.each do |string|
+  string.target = "oi"
+end
+
+# Modifies the translation of a string in the file with the given id,
+# or add the translation if don't exist
+file['target-string-id'].target = "new translation to this id"
+
+# Generate the new xml file with the change
+puts xliff.to_s
 ```
 
 
@@ -40,5 +50,3 @@ Roadmap
 ------
 
 * Read all fields according to 1.2 specification
-* Be able to modify/add contents on the xliff files
-* Regenerate the XML from the file
