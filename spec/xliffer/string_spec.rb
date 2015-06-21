@@ -69,6 +69,13 @@ module XLIFFer
         EOF
       end
 
+      it 'Modify source' do
+        trans_unit_node = Nokogiri::XML.parse(@trans_unit).xpath("//trans-unit").first
+        string = XLIFF::String.new(trans_unit_node)
+        string.source = 'Hola Mundo'
+        string.source.should eq 'Hola Mundo'
+      end
+
       it 'Modify target' do
         trans_unit_node = Nokogiri::XML.parse(@trans_unit).xpath("//trans-unit").first
         string = XLIFF::String.new(trans_unit_node)
