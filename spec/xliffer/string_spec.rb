@@ -83,25 +83,26 @@ module XLIFFer
         string.target = 'Hola Mundo'
         string.target.should eq 'Hola Mundo'
       end
-    #  it "is an array " do
-    #    trans_unit_node = Nokogiri::XML.parse("<xliff><file></file></xliff>").xpath("//file").first
-    #    XLIFF::File.new(trans_unit_node).strings.should be_kind_of(Array)
-    #  end
 
-    #  it "can be empty" do
-    #    trans_unit_node = Nokogiri::XML.parse("<xliff><file></file></xliff>").xpath("//file").first
-    #    XLIFF::File.new(trans_unit_node).strings.should be_empty
-    #  end
+      it "is an array " do
+        trans_unit_node = Nokogiri::XML.parse("<xliff><file></file></xliff>").xpath("//file").first
+        XLIFF::File.new(trans_unit_node).strings.should be_kind_of(Array)
+      end
 
-    #  it "should have a string" do
-    #    trans_unit_node = Nokogiri::XML.parse("<xliff><file>#{@trans_unit}</file></xliff>").xpath("//file").first
-    #    XLIFF::File.new(trans_unit_node).strings.size.should eql(1)
-    #  end
+      it "can be empty" do
+        trans_unit_node = Nokogiri::XML.parse("<xliff><file></file></xliff>").xpath("//file").first
+        XLIFF::File.new(trans_unit_node).strings.should be_empty
+      end
 
-    #  it "should have multiple strings" do
-    #    trans_unit_node = Nokogiri::XML.parse("<xliff><file>#{@trans_unit * 10}</file></xliff>").xpath("//file").first
-    #    XLIFF::File.new(trans_unit_node).strings.size.should eql(10)
-    #  end
+      it "should have a string" do
+        trans_unit_node = Nokogiri::XML.parse("<xliff><file>#{@trans_unit}</file></xliff>").xpath("//file").first
+        XLIFF::File.new(trans_unit_node).strings.size.should eql(1)
+      end
+
+      it "should have multiple strings" do
+        trans_unit_node = Nokogiri::XML.parse("<xliff><file>#{@trans_unit * 10}</file></xliff>").xpath("//file").first
+        XLIFF::File.new(trans_unit_node).strings.size.should eql(10)
+      end
     end
   end
 end
