@@ -15,7 +15,7 @@ module XLIFFer
     end
 
     def to_xliff
-      @xml.to_html
+      @xml.to_xml
     end
 
     private

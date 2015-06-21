@@ -5,6 +5,9 @@ unless RUBY_VERSION.match(/\A1\.8/)
   SimpleCov.start
 end
 
+require 'equivalent-xml'
+require 'equivalent-xml/rspec_matchers'
+
 require 'xliffer'
 
 RSpec.configure do |config|

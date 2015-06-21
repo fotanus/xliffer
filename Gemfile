@@ -1,6 +1,7 @@
 source "http://rubygems.org"
 
 gem 'nokogiri', '~> 1.5.10'
+gem 'equivalent-xml'
 
 group :test do
   unless RUBY_VERSION.match(/\A1\.8/)
