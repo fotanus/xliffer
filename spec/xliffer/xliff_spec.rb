@@ -2,7 +2,7 @@ require 'spec_helper'
 
 module XLIFFer
   describe XLIFF do
-    context "#new" do
+    describe "#new" do
       it "accepts a xliff file" do
         expect(XLIFF.new(::File.open("spec/files/empty.xliff"))).to be
       end
@@ -24,7 +24,7 @@ module XLIFFer
       end
     end
 
-    context "#version" do
+    describe "#version" do
       it "is the xliff version" do
         expect(XLIFF.new('<xliff version="9.8"></xliff>').version).to eql("9.8")
       end
@@ -38,7 +38,7 @@ module XLIFFer
       end
     end
 
-    context "#files" do
+    describe "#files" do
       it "is an array " do
         expect(XLIFF.new('<xliff></xliff>').files).to be_kind_of(Array)
       end
@@ -56,11 +56,28 @@ module XLIFFer
       end
     end
 
-    context "#regenate" do
-      it 'should output an xml' do
-        xml = ::File.open("spec/files/empty.xliff").read
+    describe "#to_s" do
+      it 'outputs a xml' do
+        xml = ::File.open("spec/files/simple.xliff").read
         xliff = XLIFF.new(xml)
-        expect(xliff.to_s).to be_equivalent_to(xml)
+        expect(Nokogiri::XML(xliff.to_s)).to be
+      end
+
+      context 'when xml is not changed' do
+        it 'outputs the same xml' do
+          xml = ::File.open("spec/files/simple.xliff").read
+          xliff = XLIFF.new(xml)
+          expect(xliff.to_s).to be_equivalent_to(xml)
+        end
+      end
+
+      context 'when xml is changed' do
+        it 'outputs a different xml' do
+          xml = ::File.open("spec/files/simple.xliff").read
+          xliff = XLIFF.new(xml)
+          xliff.files.first.strings.first.target = "My brand new target"
+          expect(xliff.to_s).not_to be_equivalent_to(xml)
+        end
       end
     end
   end

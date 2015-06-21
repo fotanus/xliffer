@@ -25,7 +25,6 @@ module XLIFFer
         self[id].target = target
       end
 
-
       private
 
       def file?(xml)

@@ -1,0 +1,11 @@
+<xliff version='1.2'>
+  <file original='hello.txt' source-language='en' target-language='fr' datatype='plaintext'>
+    <trans-unit id='hi'>
+      <source>Hello world</source>
+      <target>Bonjour le monde</target>
+      <alt-trans>
+        <target lang='es'>Hola mundo</target>
+      </alt-trans>
+    </trans-unit>
+  </file>
+</xliff>

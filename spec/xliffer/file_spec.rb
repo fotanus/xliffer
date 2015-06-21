@@ -3,7 +3,7 @@ require 'nokogiri'
 
 module XLIFFer
   describe XLIFF::File do
-    context "#new" do
+    describe "#new" do
       it "is created with a nokogiri file node" do
         file_node = Nokogiri::XML.parse("<file></file>").xpath("/file").first
         expect(XLIFF::File.new(file_node)).to be
@@ -19,7 +19,7 @@ module XLIFFer
       end
     end
 
-    context "#original" do
+    describe "#original" do
       it "is nil if not defined" do
         file_node = Nokogiri::XML.parse("<xliff><file></file></xliff>").xpath("//file").first
         expect(XLIFF::File.new(file_node).original).to be nil
@@ -31,7 +31,7 @@ module XLIFFer
       end
     end
 
-    context "#original" do
+    describe "#original" do
       it "is nil if not defined" do
         file_node = Nokogiri::XML.parse("<xliff><file></file></xliff>").xpath("//file").first
         expect(XLIFF::File.new(file_node).original).to be nil
@@ -43,7 +43,7 @@ module XLIFFer
       end
     end
 
-    context "#source_language" do
+    describe "#source_language" do
       it "is nil if not defined" do
         file_node = Nokogiri::XML.parse("<xliff><file></file></xliff>").xpath("//file").first
         expect(XLIFF::File.new(file_node).source_language).to be nil
@@ -55,7 +55,7 @@ module XLIFFer
       end
     end
 
-    context "#target_language" do
+    describe "#target_language" do
       it "is nil if not defined" do
         file_node = Nokogiri::XML.parse("<xliff><file></file></xliff>").xpath("//file").first
         expect(XLIFF::File.new(file_node).target_language).to be nil
@@ -113,9 +113,9 @@ module XLIFFer
       end
     end
 
-    context "#strings" do
-      before(:all) do
-        @trans_unit = <<-EOF
+    describe "#strings" do
+      let(:trans_unit) do
+        <<-EOF
         <trans-unit id="my id">
           <source>Hello World</source>
           <target>Bonjour le monde</target>
@@ -133,12 +133,12 @@ module XLIFFer
       end
 
       it "should have a string" do
-        file_node = Nokogiri::XML.parse("<xliff><file>#{@trans_unit}</file></xliff>").xpath("//file").first
+        file_node = Nokogiri::XML.parse("<xliff><file>#{trans_unit}</file></xliff>").xpath("//file").first
         expect(XLIFF::File.new(file_node).strings.size).to eql(1)
       end
 
       it "should have multiple strings" do
-        file_node = Nokogiri::XML.parse("<xliff><file>#{@trans_unit * 10}</file></xliff>").xpath("//file").first
+        file_node = Nokogiri::XML.parse("<xliff><file>#{trans_unit * 10}</file></xliff>").xpath("//file").first
         expect(XLIFF::File.new(file_node).strings.size).to eql(10)
       end
     end

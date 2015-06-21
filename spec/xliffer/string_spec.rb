@@ -3,17 +3,18 @@ require 'nokogiri'
 
 module XLIFFer
   describe XLIFF::String do
-    context "#new" do
-      before(:all) do
-        @minimal_trans_unit = <<-EOF
-        <trans-unit id="my id">
-          <source>Hello World</source>
-          <target>Bonjour le monde</target>
-        </trans-unit>
-        EOF
-      end
+    let(:trans_unit) do
+      <<-EOF
+      <trans-unit id="my id">
+        <source>Hello World</source>
+        <target>Bonjour le monde</target>
+      </trans-unit>
+      EOF
+    end
+
+    describe "#new" do
       it "is created with a nokogiri trans-unit node" do
-        trans_unit_node = Nokogiri::XML.parse(@minimal_trans_unit).xpath("//trans-unit").first
+        trans_unit_node = Nokogiri::XML.parse(trans_unit).xpath("//trans-unit").first
         expect(XLIFF::String.new(trans_unit_node)).to be
       end
 
@@ -45,7 +46,7 @@ module XLIFFer
       end
     end
 
-    context "#id" do
+    describe "#id" do
       it "is nil if not defined" do
         xml = "<trans-unit><source></source><target></target></trans-unit>"
         trans_unit_node = Nokogiri::XML.parse(xml).xpath("//trans-unit").first
@@ -59,56 +60,31 @@ module XLIFFer
       end
     end
 
-    context "#strings" do
-      before(:all) do
-        @trans_unit = <<-EOF
-        <trans-unit id="my id">
-          <source>Hello World</source>
-          <target>Bonjour le monde</target>
-        </trans-unit>
-        EOF
+    describe "#target=" do
+      it 'Modify target' do
+        trans_unit_node = Nokogiri::XML.parse(trans_unit).xpath("//trans-unit").first
+        string = XLIFF::String.new(trans_unit_node)
+        string.target = 'Hola Mundo'
+        expect(string.target).to eq 'Hola Mundo'
       end
 
+      context 'when target do not exist' do
+        it 'add a new target' do
+          xml = "<trans-unit id='my id'><source>Value</source></trans-unit>"
+          trans_unit_node = Nokogiri::XML.parse(xml).xpath("//trans-unit").first
+          string = XLIFF::String.new(trans_unit_node)
+          string.target = 'Hola Mundo'
+          expect(string.target).to eq 'Hola Mundo'
+        end
+      end
+    end
+
+    describe "#source=" do
       it 'Modify source' do
-        trans_unit_node = Nokogiri::XML.parse(@trans_unit).xpath("//trans-unit").first
+        trans_unit_node = Nokogiri::XML.parse(trans_unit).xpath("//trans-unit").first
         string = XLIFF::String.new(trans_unit_node)
         string.source = 'Hola Mundo'
         expect(string.source).to eq 'Hola Mundo'
-      end
-
-      it 'Modify target' do
-        trans_unit_node = Nokogiri::XML.parse(@trans_unit).xpath("//trans-unit").first
-        string = XLIFF::String.new(trans_unit_node)
-        string.target = 'Hola Mundo'
-        expect(string.target).to eq 'Hola Mundo'
-      end
-
-      it 'Modify target if xml doensnt contain target initially' do
-        xml = "<trans-unit id='my id'><source>Value</source></trans-unit>"
-        trans_unit_node = Nokogiri::XML.parse(xml).xpath("//trans-unit").first
-        string = XLIFF::String.new(trans_unit_node)
-        string.target = 'Hola Mundo'
-        expect(string.target).to eq 'Hola Mundo'
-      end
-
-      it "is an array " do
-        trans_unit_node = Nokogiri::XML.parse("<xliff><file></file></xliff>").xpath("//file").first
-        expect(XLIFF::File.new(trans_unit_node).strings).to be_kind_of(Array)
-      end
-
-      it "can be empty" do
-        trans_unit_node = Nokogiri::XML.parse("<xliff><file></file></xliff>").xpath("//file").first
-        expect(XLIFF::File.new(trans_unit_node).strings).to be_empty
-      end
-
-      it "should have a string" do
-        trans_unit_node = Nokogiri::XML.parse("<xliff><file>#{@trans_unit}</file></xliff>").xpath("//file").first
-        expect(XLIFF::File.new(trans_unit_node).strings.size).to eql(1)
-      end
-
-      it "should have multiple strings" do
-        trans_unit_node = Nokogiri::XML.parse("<xliff><file>#{@trans_unit * 10}</file></xliff>").xpath("//file").first
-        expect(XLIFF::File.new(trans_unit_node).strings.size).to eql(10)
       end
     end
   end
