@@ -67,6 +67,52 @@ module XLIFFer
       end
     end
 
+    describe "string accessors" do
+      let(:xml) do
+        <<-EOF
+        <file>
+          <trans-unit id="hello">
+            <source>Hello World</source>
+            <target>Bonjour le monde</target>
+          </trans-unit>
+          <trans-unit id="bye">
+            <source>Bye World</source>
+            <target>Au revoir le monde</target>
+          </trans-unit>
+          <trans-unit id="missing">
+            <source>Missing</source>
+          </trans-unit>
+        </file>
+        EOF
+      end
+
+      let(:subject) do
+        XLIFF::File.new(Nokogiri::XML.parse(xml).xpath("//file").first)
+      end
+
+      describe "[]" do
+        it "gets the string with this id" do
+          subject['hello'].target.should eq("Bonjour le monde")
+        end
+
+        it "returns nil if no string found" do
+          subject['non-existent id'].should be_nil
+        end
+      end
+
+      describe "[]=" do
+        it "changes the string target" do
+          subject['hello'] = 'changed text'
+          subject['hello'].target.should eq('changed text')
+        end
+
+        it "adds a text if don't exist" do
+          subject['missing'] = 'new text'
+          subject['missing'].target.should eq('new text')
+        end
+      end
+    end
+
     context "#strings" do
       before(:all) do
         @trans_unit = <<-EOF

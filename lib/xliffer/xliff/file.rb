@@ -17,6 +17,14 @@ module XLIFFer
         @strings = xml.xpath('.//trans-unit').map{|tu| String.new(tu) }
       end
 
+      def [](id)
+        @strings.find { |s| s.id == id }
+      end
+
+      def []=(id, target)
+        self[id].target = target
+      end
+
 
       private
 
