@@ -6,7 +6,7 @@ module XLIFFer
     context "#new" do
       it "is created with a nokogiri file node" do
         file_node = Nokogiri::XML.parse("<file></file>").xpath("/file").first
-        XLIFF::File.new(file_node).should be
+        expect(XLIFF::File.new(file_node)).to be
       end
 
       it "can't be created with a string" do
@@ -22,48 +22,48 @@ module XLIFFer
     context "#original" do
       it "is nil if not defined" do
         file_node = Nokogiri::XML.parse("<xliff><file></file></xliff>").xpath("//file").first
-        XLIFF::File.new(file_node).original.should be nil
+        expect(XLIFF::File.new(file_node).original).to be nil
       end
 
       it "is the original attribute on file tag" do
         file_node = Nokogiri::XML.parse('<xliff><file original="neat file.c"></file></xliff>').xpath("//file").first
-        XLIFF::File.new(file_node).original.should eql("neat file.c")
+        expect(XLIFF::File.new(file_node).original).to eql("neat file.c")
       end
     end
 
     context "#original" do
       it "is nil if not defined" do
         file_node = Nokogiri::XML.parse("<xliff><file></file></xliff>").xpath("//file").first
-        XLIFF::File.new(file_node).original.should be nil
+        expect(XLIFF::File.new(file_node).original).to be nil
       end
 
       it "is the original attribute on file tag" do
         file_node = Nokogiri::XML.parse('<xliff><file original="neat file.c"></file></xliff>').xpath("//file").first
-        XLIFF::File.new(file_node).original.should eql("neat file.c")
+        expect(XLIFF::File.new(file_node).original).to eql("neat file.c")
       end
     end
 
     context "#source_language" do
       it "is nil if not defined" do
         file_node = Nokogiri::XML.parse("<xliff><file></file></xliff>").xpath("//file").first
-        XLIFF::File.new(file_node).source_language.should be nil
+        expect(XLIFF::File.new(file_node).source_language).to be nil
       end
 
       it "is the original attribute on file tag" do
         file_node = Nokogiri::XML.parse('<xliff><file source-language="en"></file></xliff>').xpath("//file").first
-        XLIFF::File.new(file_node).source_language.should eql("en")
+        expect(XLIFF::File.new(file_node).source_language).to eql("en")
       end
     end
 
     context "#target_language" do
       it "is nil if not defined" do
         file_node = Nokogiri::XML.parse("<xliff><file></file></xliff>").xpath("//file").first
-        XLIFF::File.new(file_node).target_language.should be nil
+        expect(XLIFF::File.new(file_node).target_language).to be nil
       end
 
       it "is the original attribute on file tag" do
         file_node = Nokogiri::XML.parse('<xliff><file target-language="fr"></file></xliff>').xpath("//file").first
-        XLIFF::File.new(file_node).target_language.should eql("fr")
+        expect(XLIFF::File.new(file_node).target_language).to eql("fr")
       end
     end
 
@@ -92,23 +92,23 @@ module XLIFFer
 
       describe "[]" do
         it "gets the string with this id" do
-          subject['hello'].target.should eq("Bonjour le monde")
+          expect(subject['hello'].target).to eq("Bonjour le monde")
         end
 
         it "returns nil if no string found" do
-          subject['non-existent id'].should be_nil
+          expect(subject['non-existent id']).to be_nil
         end
       end
 
       describe "[]=" do
         it "changes the string target" do
           subject['hello'] = 'changed text'
-          subject['hello'].target.should eq('changed text')
+          expect(subject['hello'].target).to eq('changed text')
         end
 
         it "adds a text if don't exist" do
           subject['missing'] = 'new text'
-          subject['missing'].target.should eq('new text')
+          expect(subject['missing'].target).to eq('new text')
         end
       end
     end
@@ -124,22 +124,22 @@ module XLIFFer
       end
       it "is an array " do
         file_node = Nokogiri::XML.parse("<xliff><file></file></xliff>").xpath("//file").first
-        XLIFF::File.new(file_node).strings.should be_kind_of(Array)
+        expect(XLIFF::File.new(file_node).strings).to be_kind_of(Array)
       end
 
       it "can be empty" do
         file_node = Nokogiri::XML.parse("<xliff><file></file></xliff>").xpath("//file").first
-        XLIFF::File.new(file_node).strings.should be_empty
+        expect(XLIFF::File.new(file_node).strings).to be_empty
       end
 
       it "should have a string" do
         file_node = Nokogiri::XML.parse("<xliff><file>#{@trans_unit}</file></xliff>").xpath("//file").first
-        XLIFF::File.new(file_node).strings.size.should eql(1)
+        expect(XLIFF::File.new(file_node).strings.size).to eql(1)
       end
 
       it "should have multiple strings" do
         file_node = Nokogiri::XML.parse("<xliff><file>#{@trans_unit * 10}</file></xliff>").xpath("//file").first
-        XLIFF::File.new(file_node).strings.size.should eql(10)
+        expect(XLIFF::File.new(file_node).strings.size).to eql(10)
       end
     end
   end
