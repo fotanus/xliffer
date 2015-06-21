@@ -14,7 +14,7 @@ module XLIFFer
       parse(text)
     end
 
-    def to_xliff
+    def to_s
       @xml.to_xml
     end
 

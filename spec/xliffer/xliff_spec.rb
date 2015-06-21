@@ -60,11 +60,7 @@ module XLIFFer
       it 'should output an xml' do
         xml = ::File.open("spec/files/empty.xliff").read
         xliff = XLIFF.new(xml)
-        expect(xliff.to_xliff).to be_equivalent_to(xml)
-      end
-
-      it 'should contain modifications' do
-
+        expect(xliff.to_s).to be_equivalent_to(xml)
       end
     end
   end
