@@ -67,6 +67,40 @@ module XLIFFer
       end
     end
 
+    describe "attribute accessors" do
+      let(:subject) do
+        XLIFF::File.new Nokogiri::XML.parse("<xliff><file></file></xliff>").xpath("//file").first
+      end
+
+      describe "source_language=" do
+        it "changes the source language" do
+          file_node = Nokogiri::XML.parse('<xliff><file source-language="fr"></file></xliff>').xpath("//file").first
+          subject = XLIFF::File.new file_node
+          subject.source_language = 'en'
+          expect(subject.source_language).to eq('en')
+        end
+
+        it "adds source language if don't exist" do
+          subject.source_language = 'en'
+          expect(subject.source_language).to eq('en')
+        end
+      end
+
+      describe "target_language=" do
+        it "changes the target language" do
+          file_node = Nokogiri::XML.parse('<xliff><file target-language="fr"></file></xliff>').xpath("//file").first
+          subject = XLIFF::File.new file_node
+          subject.target_language = 'en'
+          expect(subject.target_language).to eq('en')
+        end
+
+        it "adds target language if don't exist" do
+          subject.target_language = 'en'
+          expect(subject.target_language).to eq('en')
+        end
+      end
+    end
+
     describe "string accessors" do
       let(:xml) do
         <<-EOF
