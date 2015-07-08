@@ -29,12 +29,12 @@ module XLIFFer
 
       def source_language=(val)
         @source_language = val
-        @xml['source_language'] = val
+        @xml['source-language'] = val
       end
 
       def target_language=(val)
         @target_language = val
-        @xml['target_language'] = val
+        @xml['target-language'] = val
       end
       private
 
