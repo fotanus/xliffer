@@ -11,10 +11,12 @@ module XLIFFer
           raise ArgumentError, "can't create a File without a file subtree"
         end
 
-        @original = xml.attr("original")
-        @source_language = xml.attr("source-language")
-        @target_language = xml.attr("target-language")
-        @strings = xml.xpath('.//trans-unit').map{|tu| String.new(tu) }
+        @xml = xml
+
+        @original = @xml.attr("original")
+        @source_language = @xml.attr("source-language")
+        @target_language = @xml.attr("target-language")
+        @strings = @xml.xpath('.//trans-unit').map{|tu| String.new(tu) }
       end
 
       def [](id)
@@ -25,6 +27,15 @@ module XLIFFer
         self[id].target = target
       end
 
+      def source_language=(val)
+        @source_language = val
+        @xml['source_language'] = val
+      end
+
+      def target_language=(val)
+        @target_language = val
+        @xml['target_language'] = val
+      end
       private
 
       def file?(xml)
