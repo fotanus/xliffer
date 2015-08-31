@@ -12,19 +12,28 @@ module XLIFFer
       EOF
     end
 
+    let(:xml) do
+      Nokogiri::XML.parse(trans_unit)
+    end
+
     describe '#new' do
       it 'is created with a nokogiri trans-unit node' do
-        trans_unit_node = Nokogiri::XML.parse(trans_unit).xpath('//trans-unit').first
+        trans_unit_node = xml.xpath('//trans-unit').first
         expect(XLIFF::String.new(trans_unit_node)).to be
       end
 
       it "can't be created with a string" do
-        expect { XLIFF::String.new('<file></file>') }.to raise_error ArgumentError
+        expect {
+          XLIFF::String.new('<file></file>')
+        }.to raise_error ArgumentError
       end
 
       it "can't be created with a node that is not a file node" do
-        trans_unit_node = Nokogiri::XML.parse('<xliff></xliff>').xpath('/xliff').first
-        expect { XLIFF::String.new(trans_unit_node) }.to raise_error ArgumentError
+        xml = Nokogiri::XML.parse('<xliff></xliff>')
+        trans_unit_node = xml.xpath('/xliff').first
+        expect {
+          XLIFF::String.new(trans_unit_node)
+        }.to raise_error ArgumentError
       end
 
       it 'have one source' do
@@ -34,15 +43,23 @@ module XLIFFer
       end
 
       it "don't have multiple sources tag" do
-        xml = "<trans-unit>#{'<source></source>' * 2}<target></target></trans-unit>"
+        xml = '<trans-unit>'
+        xml += "#{'<source></source>' * 2}<target></target>"
+        xml += '</trans-unit>'
         trans_unit_node = Nokogiri::XML.parse(xml).xpath('//trans-unit').first
-        expect { XLIFF::String.new(trans_unit_node) }.to raise_error MultipleElement
+        expect {
+          XLIFF::String.new(trans_unit_node)
+        }.to raise_error MultipleElement
       end
 
       it "don't have multiple targets tag" do
-        xml = "<trans-unit><source></source>#{'<target></target>' * 2}</trans-unit>"
+        xml = '<trans-unit>'
+        xml += "<source></source>#{'<target></target>' * 2}"
+        xml += '</trans-unit>'
         trans_unit_node = Nokogiri::XML.parse(xml).xpath('//trans-unit').first
-        expect { XLIFF::String.new(trans_unit_node) }.to raise_error MultipleElement
+        expect {
+          XLIFF::String.new(trans_unit_node)
+        }.to raise_error MultipleElement
       end
     end
 
@@ -54,7 +71,9 @@ module XLIFFer
       end
 
       it 'is the id attribute on trans-unit tag' do
-        xml = "<trans-unit id='my id'><source></source><target></target></trans-unit>"
+        xml = "<trans-unit id='my id'>"
+        xml += '<source></source><target></target>'
+        xml += '</trans-unit>'
         trans_unit_node = Nokogiri::XML.parse(xml).xpath('//trans-unit').first
         expect(XLIFF::String.new(trans_unit_node).id).to eql('my id')
       end
@@ -62,7 +81,7 @@ module XLIFFer
 
     describe '#target=' do
       it 'Modify target' do
-        trans_unit_node = Nokogiri::XML.parse(trans_unit).xpath('//trans-unit').first
+        trans_unit_node = xml.xpath('//trans-unit').first
         string = XLIFF::String.new(trans_unit_node)
         string.target = 'Hola Mundo'
         expect(string.target).to eq 'Hola Mundo'
@@ -81,7 +100,7 @@ module XLIFFer
 
     describe '#source=' do
       it 'Modify source' do
-        trans_unit_node = Nokogiri::XML.parse(trans_unit).xpath('//trans-unit').first
+        trans_unit_node = xml.xpath('//trans-unit').first
         string = XLIFF::String.new(trans_unit_node)
         string.source = 'Hola Mundo'
         expect(string.source).to eq 'Hola Mundo'

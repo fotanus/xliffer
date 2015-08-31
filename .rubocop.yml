@@ -1,0 +1,13 @@
+# This will acuse `expect {` from being bad style
+Style/BlockDelimiters:
+  Enabled: false
+
+# We support ruby 1.8
+Style/HashSyntax:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/ModuleLength:
+   Max: 250

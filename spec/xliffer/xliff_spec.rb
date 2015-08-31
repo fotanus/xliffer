@@ -20,13 +20,17 @@ module XLIFFer
       end
 
       it "doesn't accept a random file" do
-        expect { XLIFF.new(::File.new('spec/files/file.foobar')) }.to raise_error FormatError
+        expect {
+          XLIFF.new(::File.new('spec/files/file.foobar'))
+        }.to raise_error FormatError
       end
     end
 
     describe '#version' do
       it 'is the xliff version' do
-        expect(XLIFF.new('<xliff version="9.8"></xliff>').version).to eql('9.8')
+        expect(
+          XLIFF.new('<xliff version="9.8"></xliff>').version
+        ).to eql('9.8')
       end
 
       it 'is nil when it is not present' do
@@ -34,13 +38,17 @@ module XLIFFer
       end
 
       it 'is a string when there is a xliff version' do
-        expect(XLIFF.new('<xliff version="9.8"></xliff>').version).to be_kind_of(String)
+        expect(
+          XLIFF.new('<xliff version="9.8"></xliff>').version
+        ).to be_kind_of(String)
       end
     end
 
     describe '#files' do
       it 'is an array ' do
-        expect(XLIFF.new('<xliff></xliff>').files).to be_kind_of(Array)
+        expect(
+          XLIFF.new('<xliff></xliff>').files
+        ).to be_kind_of(Array)
       end
 
       it 'can be empty' do
@@ -48,11 +56,15 @@ module XLIFFer
       end
 
       it 'should have a file' do
-        expect(XLIFF.new('<xliff><file></file></xliff>').files.first).to be_kind_of(XLIFF::File)
+        expect(
+          XLIFF.new('<xliff><file></file></xliff>').files.first
+        ).to be_kind_of(XLIFF::File)
       end
 
       it 'should have multiple files' do
-        expect(XLIFF.new('<xliff><file></file><file></file></xliff>').files.size).to eql(2)
+        expect(
+          XLIFF.new('<xliff><file></file><file></file></xliff>').files.size
+        ).to eql(2)
       end
     end
 

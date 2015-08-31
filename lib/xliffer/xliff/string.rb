@@ -4,14 +4,15 @@ module XLIFFer
       attr_reader :id, :source, :target, :note
       def initialize(trans_unit_xml)
         unless XLIFF.xml_element?(trans_unit_xml) && trans_unit?(trans_unit_xml)
-          fail ArgumentError, "can't create a String without a trans-unit subtree"
+          error_message = "can't create a String without a trans-unit subtree"
+          fail ArgumentError, error_message
         end
 
         @xml = trans_unit_xml
         @id = @xml.attr('id')
-        @source = get_source
-        @target = get_target
-        @note   = get_note
+        @source = find_source
+        @target = find_target
+        @note   = find_note
       end
 
       def target=(val)
@@ -32,16 +33,22 @@ module XLIFFer
         xml.name.downcase == 'trans-unit'
       end
 
-      def get_source
+      def find_source
         sources = @xml.xpath('./source')
-        fail MultipleElement, 'Should have only one source tag' if sources.size > 1
-        fail NoElement, 'Should have one source tag' unless sources.size == 1
+        error_message = 'Should have only one source tag'
+        fail MultipleElement, error_message if sources.size > 1
+
+        error_message = 'Should have one source tag'
+        fail NoElement, error_message unless sources.size == 1
         sources.first.text
       end
 
-      def get_target
+      def find_target
         targets = @xml.xpath('./target')
-        fail MultipleElement, 'Should have only one target tag' if targets.size > 1
+
+        error_message = 'Should have only one target tag'
+        fail MultipleElement, error_message if targets.size > 1
+
         if targets.empty?
           targets << Nokogiri::XML::Node.new('target', @xml)
           @xml.add_child(targets.first)
@@ -49,9 +56,10 @@ module XLIFFer
         targets.first.text
       end
 
-      def get_note
+      def find_note
         notes = @xml.xpath('./note')
-        fail MultipleElement, 'Should have only one target tag' if notes.size > 1
+        error_message = 'Should have only one target tag'
+        fail MultipleElement, error_message if notes.size > 1
         notes.first ? notes.first.text : ''
       end
     end
