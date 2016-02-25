@@ -1,4 +1,3 @@
-require 'xliffer/xliff'
 require 'nokogiri'
 
 module XLIFFer
